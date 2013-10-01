@@ -4,23 +4,10 @@ module ActionView::Helpers::FormOptionsHelper
 
   # Return select and option tags for the given object and method, using state_options_for_select to generate the list of option tags.
   def state_select(object, method, country='US', options = {}, html_options = {})
-    ActionView::Helpers::InstanceTag.new(object, method, self, options.delete(:object)).to_state_select_tag(country, options, html_options)
+    choices = if country then eval(country.upcase+'_STATES') else [] end
+
+    ActionView::Helpers::Tags::Select.new(object, method, self, choices, options, html_options).render
   end
-
-  # Returns a string of option tags for states in a country. Supply a state name as +selected+ to
-  # have it marked as the selected option tag.
-  #
-  # NOTE: Only the option tags are returned, you have to wrap this call in a regular HTML select tag.
-
-  def state_options_for_select(selected = nil, country = 'US')
-    state_options = "".html_safe
-    if country
-      state_options += options_for_select(eval(country.upcase+'_STATES'), selected)
-    end
-    return state_options
-  end
-
-  private
 
   US_STATES = [
     "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
@@ -140,18 +127,6 @@ module ActionView::Helpers::FormOptionsHelper
     "pomorskie", "śląskie", "świętokrzyskie", "warmińsko-mazurskie",
     "wielkopolskie", "zachodniopomorskie"
   ] unless const_defined?("POLAND_STATES")
-end
-
-class ActionView::Helpers::InstanceTag
-
-
-  def to_state_select_tag(country, options, html_options)
-    html_options = html_options.stringify_keys
-    add_default_name_and_id(html_options)
-    value = value(object)
-    selected_value = options.has_key?(:selected) ? options[:selected] : value
-    content_tag("select", add_options(state_options_for_select(selected_value, country), options, value), html_options)
-  end
 end
 
 
