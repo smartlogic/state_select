@@ -19,7 +19,8 @@ module ActionView::Helpers::FormOptionsHelper
     "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon",
     "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina",
     "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia",
-    "Washington", "Washington D.C.", "West Virginia", "Wisconsin", "Wyoming"
+    "Washington", "Washington D.C.", "West Virginia", "Wisconsin", "Wyoming",
+    "AE", "AP"
   ] unless const_defined?("US_STATES")
 
   UK_STATES = [
